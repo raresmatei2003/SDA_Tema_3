@@ -1,0 +1,69 @@
+Matei Rares-Andrei
+315CC
+
+Tema 3
+
+Timp implementare - 10 ore
+Rezolvare:
+
+Am memorat lista de adiacenta a grafului cu ajutorul structurii Node care
+retine pentru fiecare nod numarul de noduri cu care este adiacent, un pointer
+catre lista de noduri adiacente (structura List - retine indexul nodului 
+adiacent, distanta pana la acesta si adresa urmatorului nod din lista) si
+adancimea apei la nodul respectiv.
+
+Cerinta 1:
+Am folosit functia create_obj_graph care codifica obiectivele citite (le 
+introduce intr-un vector de cuvinte in ordinea citirii si pozitia in vector
+reprezinta codul asociat), si pentru fiecare muchie citita completeaza lista
+de adiacenta (adauga nod2 la adiacenta lui nod1 si viceversa).
+
+Apoi am folosit functia get_zones pentru a obtine numarul de zone conexe din
+graf si pentru fiecare a calculat costul total minim al drumurilor ce trebuie
+renovate. Am parcurs nodurile din graf si pentru fiecare nod care nu a fost
+vizitat am apelat functia fill_zone, care realizeaza un DFS pornind din nodul
+dat si retine lista muchiilor ce formeaza zona conexa gasita. Pe parcursul
+DFS-ului precedent este format si vectorul de tati initial folosit in
+algoritmul lui Kruskal (fiecare nod este propriul sau tata).
+
+Folosind lista de muchii obtinuta pentru zona conexa gasita si vectorul de tati
+creat, apelez algoritmul lui Kruskal pentru a calcula costul minim al arborelui
+partial de cost minim din zona conexa gasita.
+
+La finalul functiei get_zones variabila zones_nr va retine numarul de zone
+conexe din graf si vectorul cost_total va retine costul minim pentru fiecare
+zona. Sortez folosind qsort acest vector si afisez numarul de zone si
+continutul vectorului.
+
+Cerinta 2:
+Am folosit functia create_island_graph care a creat lista de adiacenta a
+grafului dat. Nodul "Island" a fost codificat cu cifra 0 si "Corabie" cu 1,
+pentru restul nodurilor a fost extrasa cifra din cuvant.
+Dupa am citit adancimea apei pentru fiecare nod si greutatea totala a comorii.
+
+Folosind functia is_path_to_island am verificat daca exista drum de la corabie
+la insula. Aceasta apeleaza un DFS incepand de la nodul 1 (Corabie) si
+marcheaza nodurile vizitate. Apoi verifica daca nodul 0 (Insula) a fost
+vizitata, caz in care returneaza 1. Altfel, afiseaza  mesajul “Echipajul nu
+poate ajunge la insula” si returneaza 0, insemnand ca programul se va termina.
+
+Folosind functia is_path_to_boat am verificat daca exista drum de la insula
+la corabie. Aceasta apeleaza un DFS incepand de la nodul 0 (Insula) si
+marcheaza nodurile vizitate. Apoi verifica daca nodul 1 (Corabie) a fost
+vizitata, caz in care returneaza 1. Altfel, afiseaza  mesajul “Echipajul nu
+poate transporta comoara înapoi la corabie” si returneaza 0, insemnand ca
+programul se va termina.
+
+Daca ambele functii au returnat 1 atunci cerinta poate fi rezolvata.
+Se apeleaza algoritmul lui Dijkstra care calculeaza drumul cel mai eficient
+de la insula la fiecare nod si retine in vectorul prev pentru fiecare nod
+din graf nodul precedent din drumul minim.
+
+Functia get_path parcurge recursiv vectorul prev incepand de la nodul 1
+(Corabie), pentru a obtine drumul de la Insula la Corabie, care va fi salvat
+in vectorul path.
+
+Functia get_path_lost calculeaza costul drumului obtinut si functia
+get_max_weight gaseste nodul din drum cu adancime minima, adica greutatea
+maxima ce poate fi carata de corabie. Functia get_trip_number obtine numarul
+de drumuri ce trebuie efectuate pentru a transporta toata comoara.
